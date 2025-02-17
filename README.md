@@ -14,7 +14,7 @@ When working with multi-line strings inside indented code blocks, unwanted leadi
 cargo install string-auto-indent
 ```
 
-## Example
+## Usage
 
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
@@ -32,14 +32,14 @@ let line_ending = LineEnding::detect(text);
 // With auto-indent
 assert_eq!(
     auto_indent(text),
-    // Restore platform-specific line endings for testing
+    // For cross-platform testing: Restore platform-specific line endings
     line_ending.restore("String Auto Indent\n\nLevel 1\n    Level 2\n        Level 3\n")
 );
 
 // Without auto-indent
 assert_eq!(
     text,
-    // Restore platform-specific line endings for testing
+    // For cross-platform testing: Restore platform-specific line endings
     line_ending.restore("\n    String Auto Indent\n\n    Level 1\n        Level 2\n            Level 3\n"),
 );
 ```
