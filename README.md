@@ -40,6 +40,7 @@ let text = r#"
             Level 3
 "#;
 
+// For cross-platform testing
 let line_ending = LineEnding::detect(text);
 
 // With auto-indent
