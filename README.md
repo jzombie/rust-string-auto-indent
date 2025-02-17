@@ -1,5 +1,18 @@
 # Multi-line String Auto Indent
 
+[![made-with-rust][rust-logo]][rust-src-page]
+[![crates.io][crates-badge]][crates-page]
+[![Documentation][docs-badge]][docs-page]
+[![MIT licensed][license-badge]][license-page]
+
+
+| OS            | Status                                                                               |
+|---------------|--------------------------------------------------------------------------------------|
+| Ubuntu-latest | [![Ubuntu Tests][ubuntu-latest-badge]][ubuntu-latest-workflow]                       |
+| macOS-latest  | [![macOS Tests][macos-latest-badge]][macos-latest-workflow]                          |
+| Windows-latest| [![Windows Tests][windows-latest-badge]][windows-latest-workflow]                    |
+
+
 A Rust utility for automatically normalizing multi-line string indentation while preserving platform-specific line endings.
 
 ## Overview
@@ -83,5 +96,23 @@ Level 1
 ## License
 Licensed under **MIT**. See [`LICENSE`][license-page] for details.
 
-[license-page]: https://github.com/jzombie/rust-cargo-pkg-info-struct-builder/blob/main/LICENSE
+[rust-src-page]: https://www.rust-lang.org/
+[rust-logo]: https://img.shields.io/badge/Made%20with-Rust-black?&logo=Rust
+
+[crates-page]: https://crates.io/crates/string-auto-indent
+[crates-badge]: https://img.shields.io/crates/v/string-auto-indent.svg
+
+[docs-page]: https://docs.rs/string-auto-indent
+[docs-badge]: https://docs.rs/string-auto-indent/badge.svg
+
+[license-page]: https://github.com/jzombie/rust-string-auto-indent/blob/main/LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+
+[ubuntu-latest-badge]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml/badge.svg?branch=main&job=Run%20Rust%20Tests%20(OS%20=%20ubuntu-latest)
+[ubuntu-latest-workflow]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml?query=branch%3Amain
+
+[macos-latest-badge]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml/badge.svg?branch=main&job=Run%20Rust%20Tests%20(OS%20=%20macos-latest)
+[macos-latest-workflow]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml?query=branch%3Amain
+
+[windows-latest-badge]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml/badge.svg?branch=main&job=Run%20Rust%20Tests%20(OS%20=%20windows-latest)
+[windows-latest-workflow]: https://github.com/jzombie/rust-string-auto-indent/actions/workflows/rust-tests.yml?query=branch%3Amain
