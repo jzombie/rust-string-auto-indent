@@ -19,7 +19,6 @@ cargo install string-auto-indent
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
 
-println!("");
 let text = r#"
     String Auto Indent
 
@@ -43,6 +42,28 @@ assert_eq!(
     // Restore platform-specific line endings for testing
     line_ending.restore("\n    String Auto Indent\n\n    Level 1\n        Level 2\n            Level 3\n"),
 );
+```
+
+### Example Output
+
+**With `auto-indent` enabled.**
+
+```text
+String Auto Indent
+
+Level 1
+    Level 2
+        Level 3
+```
+
+**With `auto-intent` disabled.**
+
+```text
+    String Auto Indent
+
+    Level 1
+        Level 2
+            Level 3
 ```
 
 ## How It Works
