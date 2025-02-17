@@ -1,0 +1,8 @@
+[package]
+name = "string-auto-indent"
+description = "Automatically (re)indent multi-line strings"
+version = "0.1.0-alpha"
+edition = "2021"
+
+[dependencies]
+doc-comment = "0.3.3"
