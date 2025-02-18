@@ -9,8 +9,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
 
 [[package]]
-name = "string-auto-indent"
-version = "0.1.0-alpha1"
+name = "line-ending"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "553d09af164e35635188a438ce8e81ed8adc7d3e436d2a17f0c7dbcf3fb1f82e"
 dependencies = [
  "doc-comment",
+]
+
+[[package]]
+name = "string-auto-indent"
+version = "0.1.0-alpha2"
+dependencies = [
+ "doc-comment",
+ "line-ending",
 ]

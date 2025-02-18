@@ -41,20 +41,20 @@ let text = r#"
 "#;
 
 // For cross-platform testing
-let line_ending = LineEnding::detect(text);
+let line_ending = LineEnding::from(text);
 
 // With auto-indent
 assert_eq!(
     auto_indent(text),
     // For cross-platform testing: Restore platform-specific line endings
-    line_ending.restore("String Auto Indent\n\nLevel 1\n    Level 2\n        Level 3\n")
+    line_ending.denormalize("String Auto Indent\n\nLevel 1\n    Level 2\n        Level 3\n")
 );
 
 // Without auto-indent
 assert_eq!(
     text,
     // For cross-platform testing: Restore platform-specific line endings
-    line_ending.restore("\n    String Auto Indent\n\n    Level 1\n        Level 2\n            Level 3\n"),
+    line_ending.denormalize("\n    String Auto Indent\n\n    Level 1\n        Level 2\n            Level 3\n"),
 );
 ```
 
