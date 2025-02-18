@@ -1,2 +1,4 @@
 [licenses]
-allow = ["OSI-approved"]
+allow = [
+    "MIT",
+]
