@@ -24,7 +24,7 @@ impl AutoIndent {
 
         // Normalize to `\n` for consistent processing
         let input = LineEnding::normalize(input);
-        let mut lines: Vec<String> = LineEnding::split_into_lines(input.as_str());
+        let mut lines: Vec<String> = LineEnding::split(input.as_str());
 
         // Remove the first line if it's empty
         let first_line = if lines.first().map(|s| s.trim()).unwrap_or("").is_empty() {
@@ -63,7 +63,7 @@ impl AutoIndent {
         }
 
         // Preserve the original trailing newline behavior
-        self.line_ending.apply_to_lines(result)
+        self.line_ending.join(result)
     }
 }
 
@@ -100,7 +100,7 @@ mod tests {
         assert_eq!(auto_indent(&readme_contents), readme_contents);
 
         // Validate the content was actually read
-        let lines = LineEnding::split_into_lines(&readme_contents);
+        let lines = LineEnding::split(&readme_contents);
         assert_eq!(lines.first().unwrap(), "# Multi-line String Auto Indent");
 
         // Ensure the README has more than 5 lines

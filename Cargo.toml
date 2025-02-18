@@ -9,4 +9,4 @@ license = "MIT"
 
 [dependencies]
 doc-comment = "0.3.3"
-line-ending = "1.0.1"
+line-ending = "1.1.0"
