@@ -1,6 +1,6 @@
 [package]
 name = "string-auto-indent"
-version = "0.1.0-alpha"
+version = "0.1.0-alpha1"
 authors = ["Jeremy Harris <jeremy.harris@zenosmosis.com>"]
 edition = "2021"
 description = "Normalizes multi-line string indentation while preserving platform-specific line endings."

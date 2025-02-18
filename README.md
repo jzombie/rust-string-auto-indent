@@ -24,7 +24,7 @@ When working with multi-line strings inside indented code blocks, unwanted leadi
 ## Installation
 
 ```sh
-cargo install string-auto-indent
+cargo add string-auto-indent
 ```
 
 ## Usage
