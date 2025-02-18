@@ -77,6 +77,40 @@ mod tests {
     use super::*;
     use line_ending::LineEnding;
 
+    fn get_readme_contents() -> String {
+        use std::fs::File;
+        use std::io::Read;
+
+        let readme_file = "README.md";
+
+        // Read file contents
+        let mut read_content = String::new();
+        File::open(readme_file)
+            .expect(&format!("Failed to open {}", readme_file))
+            .read_to_string(&mut read_content)
+            .expect(&format!("Failed to read {}", readme_file));
+
+        read_content
+    }
+
+    #[test]
+    fn test_preserves_formatting() {
+        let readme_contents = get_readme_contents();
+
+        assert_eq!(auto_indent(&readme_contents), readme_contents);
+
+        // Validate the content was actually read
+        let lines = LineEnding::split_into_lines(&readme_contents);
+        assert_eq!(lines.first().unwrap(), "# Multi-line String Auto Indent");
+
+        // Ensure the README has more than 5 lines
+        assert!(
+            lines.len() > 5,
+            "Expected README to have more than 5 lines, but got {}",
+            lines.len()
+        );
+    }
+
     #[test]
     fn test_basic_implementation() {
         let input = r#"Basic Test
