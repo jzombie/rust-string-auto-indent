@@ -22,7 +22,6 @@ impl AutoIndent {
             return String::new();
         }
 
-        // Normalize to `\n` for consistent processing
         let mut lines: Vec<String> = LineEnding::split(input);
 
         // Remove the first line if it's empty
