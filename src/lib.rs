@@ -23,8 +23,7 @@ impl AutoIndent {
         }
 
         // Normalize to `\n` for consistent processing
-        let input = LineEnding::normalize(input);
-        let mut lines: Vec<String> = LineEnding::split(input.as_str());
+        let mut lines: Vec<String> = LineEnding::split(input);
 
         // Remove the first line if it's empty
         let first_line = if lines.first().map(|s| s.trim()).unwrap_or("").is_empty() {
