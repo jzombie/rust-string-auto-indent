@@ -24,13 +24,8 @@ impl AutoIndent {
 
         let mut lines: Vec<String> = LineEnding::split(input);
 
-        // Remove the first line if it's empty
-        let first_line = if lines.first().map(|s| s.trim()).unwrap_or("").is_empty() {
-            lines.remove(0);
-            None
-        } else {
-            Some(lines.remove(0)) // Take first line exactly as is
-        };
+        // Take first line exactly as is
+        let first_line = Some(lines.remove(0));
 
         // Find the minimum indentation for all remaining lines
         let min_indent = lines
@@ -147,7 +142,7 @@ mod tests {
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.denormalize("1\n    2\n        3\n")
+            line_ending.denormalize("\n1\n    2\n        3\n")
         );
 
         // Without auto-indent
