@@ -1,4 +1,4 @@
-# Multi-line String Auto Indent
+# Multi-line String Auto-Indent
 
 [![made-with-rust][rust-logo]][rust-src-page]
 [![crates.io][crates-badge]][crates-page]
