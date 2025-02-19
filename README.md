@@ -48,11 +48,16 @@ Level 1
         Level 3
 "#;
 
-// With auto-indent
 assert_eq!(
     auto_indent(text),
     expected,
 );
+
+// Assert the strings are not the same
+assert_ne!(
+    text,
+    expected
+)
 ```
 
 ### Example Output
