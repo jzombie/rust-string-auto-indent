@@ -152,6 +152,8 @@ assert_ne!(
 - Formatting log messages or CLI output while ensuring alignment.
 - Cleaning up documentation strings or multi-line literals in indented Rust code.
 - Processing structured text while ensuring consistent indentation.
+- Declaring multi-line variables in code where the indentation should match the codebase for readability, but the actual string content should not retain unnecessary leading spaces.
+- Ensuring consistent formatting in generated strings for use in templates, serialization, or output rendering.
 
 ## License
 Licensed under **MIT**. See [`LICENSE`][license-page] for details.
