@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "string-auto-indent"
-version = "0.1.0-alpha2"
+version = "0.1.0"
 dependencies = [
  "doc-comment",
  "line-ending",
