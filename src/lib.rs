@@ -94,7 +94,7 @@ mod tests {
 
         // Validate the content was actually read
         let lines = LineEnding::split(&readme_contents);
-        assert_eq!(lines.first().unwrap(), "# Multi-line String Auto Indent");
+        assert_eq!(lines.first().unwrap(), "# Multi-line String Auto-Indent");
 
         // Ensure the README has more than 5 lines
         assert!(
