@@ -1,7 +1,6 @@
 #[cfg(doctest)]
 doc_comment::doctest!("../README.md");
 
-pub mod line_ending;
 pub use line_ending::LineEnding;
 
 /// Struct that encapsulates auto-indentation logic.
@@ -13,7 +12,7 @@ impl AutoIndent {
     /// Creates a new instance by detecting the line ending from the input.
     fn new(input: &str) -> Self {
         Self {
-            line_ending: LineEnding::detect(input),
+            line_ending: LineEnding::from(input),
         }
     }
 
@@ -23,20 +22,10 @@ impl AutoIndent {
             return String::new();
         }
 
-        // Normalize to `\n` for consistent processing
-        let input = LineEnding::normalize(input);
-        let mut lines: Vec<&str> = input.lines().collect();
+        let mut lines: Vec<String> = LineEnding::split(input);
 
-        // Track whether the original input ended with a newline
-        let ends_with_newline = input.ends_with('\n');
-
-        // Remove the first line if it's empty
-        let first_line = if lines.first().map(|s| s.trim()).unwrap_or("").is_empty() {
-            lines.remove(0);
-            None
-        } else {
-            Some(lines.remove(0)) // Take first line exactly as is
-        };
+        // Take first line exactly as is
+        let first_line = Some(lines.remove(0));
 
         // Find the minimum indentation for all remaining lines
         let min_indent = lines
@@ -67,12 +56,7 @@ impl AutoIndent {
         }
 
         // Preserve the original trailing newline behavior
-        let mut output = self.line_ending.restore_from_lines(result);
-        if ends_with_newline {
-            output.push_str(self.line_ending.as_str());
-        }
-
-        output
+        self.line_ending.join(result)
     }
 }
 
@@ -86,6 +70,40 @@ mod tests {
     use super::*;
     use line_ending::LineEnding;
 
+    fn get_readme_contents() -> String {
+        use std::fs::File;
+        use std::io::Read;
+
+        let readme_file = "README.md";
+
+        // Read file contents
+        let mut read_content = String::new();
+        File::open(readme_file)
+            .unwrap_or_else(|_| panic!("Failed to open {}", readme_file))
+            .read_to_string(&mut read_content)
+            .unwrap_or_else(|_| panic!("Failed to read {}", readme_file));
+
+        read_content
+    }
+
+    #[test]
+    fn test_preserves_formatting() {
+        let readme_contents = get_readme_contents();
+
+        assert_eq!(auto_indent(&readme_contents), readme_contents);
+
+        // Validate the content was actually read
+        let lines = LineEnding::split(&readme_contents);
+        assert_eq!(lines.first().unwrap(), "# Multi-line String Auto-Indent");
+
+        // Ensure the README has more than 5 lines
+        assert!(
+            lines.len() > 5,
+            "Expected README to have more than 5 lines, but got {}",
+            lines.len()
+        );
+    }
+
     #[test]
     fn test_basic_implementation() {
         let input = r#"Basic Test
@@ -94,20 +112,20 @@ mod tests {
                 3
         "#;
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
             // string_replace_all("Basic Test\n1\n    2\n        3\n", "\n", e.as_str())
-            line_ending.restore("Basic Test\n1\n    2\n        3\n")
+            line_ending.denormalize("Basic Test\n1\n    2\n        3\n")
         );
 
         // Without auto-indent
         assert_eq!(
             input,
             line_ending
-                .restore("Basic Test\n        1\n            2\n                3\n        ")
+                .denormalize("Basic Test\n        1\n            2\n                3\n        ")
         );
     }
 
@@ -119,18 +137,18 @@ mod tests {
                 3
         "#;
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.restore("1\n    2\n        3\n")
+            line_ending.denormalize("\n1\n    2\n        3\n")
         );
 
         // Without auto-indent
         assert_eq!(
             input,
-            line_ending.restore("\n        1\n            2\n                3\n        "),
+            line_ending.denormalize("\n        1\n            2\n                3\n        "),
         );
     }
 
@@ -140,18 +158,18 @@ mod tests {
         Second Line
         "#;
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.restore("     <- First Line\nSecond Line\n")
+            line_ending.denormalize("     <- First Line\nSecond Line\n")
         );
 
         // Without auto-indent
         assert_eq!(
             input,
-            line_ending.restore("     <- First Line\n        Second Line\n        "),
+            line_ending.denormalize("     <- First Line\n        Second Line\n        "),
         );
     }
 
@@ -162,18 +180,18 @@ mod tests {
 Third Line
         "#;
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.restore("First Line\n        Second Line\nThird Line\n",)
+            line_ending.denormalize("First Line\n        Second Line\nThird Line\n",)
         );
 
         // Without auto-indent
         assert_eq!(
             input,
-            line_ending.restore("First Line\n        Second Line\nThird Line\n        "),
+            line_ending.denormalize("First Line\n        Second Line\nThird Line\n        "),
         );
     }
 
@@ -181,16 +199,16 @@ Third Line
     fn test_single_line_no_change() {
         let input = "Single line no change";
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.restore("Single line no change")
+            line_ending.denormalize("Single line no change")
         );
 
         // Without auto-indent
-        assert_eq!(input, line_ending.restore("Single line no change"));
+        assert_eq!(input, line_ending.denormalize("Single line no change"));
     }
 
     #[test]
@@ -208,18 +226,18 @@ Third Line
         E
         "#;
 
-        let line_ending = LineEnding::detect(input);
+        let line_ending = LineEnding::from(input);
 
         // With auto-indent
         assert_eq!(
             auto_indent(input),
-            line_ending.restore("First Line\n\n    A\n\n    B\n\n    C\n\n        D\n\nE\n")
+            line_ending.denormalize("First Line\n\n    A\n\n    B\n\n    C\n\n        D\n\nE\n")
         );
 
         // Without auto-indent
         assert_eq!(
             input,
-            line_ending.restore(
+            line_ending.denormalize(
                 "First Line\n        \n            A\n\n            B\n\n            C\n\n                D\n\n        E\n        "
             ),
         );

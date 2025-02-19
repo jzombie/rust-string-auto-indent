@@ -1,4 +1,4 @@
-# Multi-line String Auto Indent
+# Multi-line String Auto-Indent
 
 [![made-with-rust][rust-logo]][rust-src-page]
 [![crates.io][crates-badge]][crates-page]
@@ -29,6 +29,10 @@ cargo add string-auto-indent
 
 ## Usage
 
+## Example 1: Basic Indentation
+
+This example removes unnecessary leading spaces while preserving the relative indentation of nested lines.
+
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
 
@@ -38,29 +42,36 @@ let text = r#"
     Level 1
         Level 2
             Level 3
+    "#;
+
+// Expected output after applying auto indentation
+let expected = r#"
+String Auto Indent
+
+Level 1
+    Level 2
+        Level 3
 "#;
 
-// For cross-platform testing
-let line_ending = LineEnding::detect(text);
-
-// With auto-indent
+// Verify that `auto_indent` correctly normalizes indentation
 assert_eq!(
     auto_indent(text),
-    // For cross-platform testing: Restore platform-specific line endings
-    line_ending.restore("String Auto Indent\n\nLevel 1\n    Level 2\n        Level 3\n")
+    expected,
+    "The auto_indent function should normalize leading whitespace."
 );
 
-// Without auto-indent
-assert_eq!(
+// Ensure the original text is not identical to the expected output
+// This confirms that `auto_indent` actually modifies the string.
+assert_ne!(
     text,
-    // For cross-platform testing: Restore platform-specific line endings
-    line_ending.restore("\n    String Auto Indent\n\n    Level 1\n        Level 2\n            Level 3\n"),
+    expected,
+    "The original text should *not* be identical to the expected output before normalization."
 );
 ```
 
 ### Example Output
 
-**With `auto-indent` enabled.**
+#### With `auto-indent`
 
 ```text
 String Auto Indent
@@ -70,7 +81,7 @@ Level 1
         Level 3
 ```
 
-**With `auto-intent` disabled.**
+#### Without `auto-intent`
 
 ```text
     String Auto Indent
@@ -78,6 +89,54 @@ Level 1
     Level 1
         Level 2
             Level 3
+```
+
+## Example 2: Mixed Indentation
+
+This example demonstrates how `auto_indent` normalizes inconsistent indentation while preserving the relative structure of nested content.
+
+```rust
+use string_auto_indent::{auto_indent, LineEnding};
+
+let text = r#"
+                    String Auto Indent
+
+                        1. Point 1
+                            a. Sub point a
+                            b. Sub point b
+                        2. Point 2
+                            a. Sub point a
+                            b. Sub piont b
+                                1b. Sub piont 1b
+    "#;
+
+// Expected output after applying auto indentation
+let expected = r#"
+String Auto Indent
+
+    1. Point 1
+        a. Sub point a
+        b. Sub point b
+    2. Point 2
+        a. Sub point a
+        b. Sub piont b
+            1b. Sub piont 1b
+"#;
+
+// Verify that `auto_indent` correctly normalizes indentation
+assert_eq!(
+    auto_indent(text),
+    expected,
+    "The auto_indent function should normalize leading whitespace."
+);
+
+// Ensure the original text is not identical to the expected output
+// This confirms that `auto_indent` actually modifies the string.
+assert_ne!(
+    text,
+    expected,
+    "The original text should *not* be identical to the expected output before normalization."
+);
 ```
 
 ## How It Works
@@ -93,6 +152,8 @@ Level 1
 - Formatting log messages or CLI output while ensuring alignment.
 - Cleaning up documentation strings or multi-line literals in indented Rust code.
 - Processing structured text while ensuring consistent indentation.
+- Declaring multi-line variables in code where the indentation should match the codebase for readability, but the actual string content should not retain unnecessary leading spaces.
+- Ensuring consistent formatting in generated strings for use in templates, serialization, or output rendering.
 
 ## License
 Licensed under **MIT**. See [`LICENSE`][license-page] for details.

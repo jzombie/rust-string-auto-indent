@@ -1,7 +1,7 @@
 use string_auto_indent::auto_indent;
 
 fn main() {
-    println!("");
+    println!();
     let text = r#"Example:
         A
             B
@@ -15,5 +15,5 @@ fn main() {
 
     println!("Without auto-indent:");
     print!("{}", text);
-    println!("");
+    println!();
 }
