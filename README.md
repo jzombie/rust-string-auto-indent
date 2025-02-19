@@ -29,6 +29,10 @@ cargo add string-auto-indent
 
 ## Usage
 
+## Example 1: Basic Indentation
+
+This example removes unnecessary leading spaces while preserving the relative indentation of nested lines.
+
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
 
@@ -40,6 +44,7 @@ let text = r#"
             Level 3
     "#;
 
+// Expected output after applying auto indentation
 let expected = r#"
 String Auto Indent
 
@@ -48,16 +53,20 @@ Level 1
         Level 3
 "#;
 
+// Verify that `auto_indent` correctly normalizes indentation
 assert_eq!(
     auto_indent(text),
     expected,
+    "The auto_indent function should normalize leading whitespace."
 );
 
-// Assert the strings are not the same
+// Ensure the original text is not identical to the expected output
+// This confirms that `auto_indent` actually modifies the string.
 assert_ne!(
     text,
-    expected
-)
+    expected,
+    "The original text should *not* be identical to the expected output before normalization."
+);
 ```
 
 ### Example Output
@@ -80,6 +89,54 @@ Level 1
     Level 1
         Level 2
             Level 3
+```
+
+## Example 2: Mixed Indentation
+
+This example demonstrates how `auto_indent` normalizes inconsistent indentation while preserving the relative structure of nested content.
+
+```rust
+use string_auto_indent::{auto_indent, LineEnding};
+
+let text = r#"
+                    String Auto Indent
+
+                        1. Point 1
+                            a. Sub point a
+                            b. Sub point b
+                        2. Point 2
+                            a. Sub point a
+                            b. Sub piont b
+                                1b. Sub piont 1b
+    "#;
+
+// Expected output after applying auto indentation
+let expected = r#"
+String Auto Indent
+
+    1. Point 1
+        a. Sub point a
+        b. Sub point b
+    2. Point 2
+        a. Sub point a
+        b. Sub piont b
+            1b. Sub piont 1b
+"#;
+
+// Verify that `auto_indent` correctly normalizes indentation
+assert_eq!(
+    auto_indent(text),
+    expected,
+    "The auto_indent function should normalize leading whitespace."
+);
+
+// Ensure the original text is not identical to the expected output
+// This confirms that `auto_indent` actually modifies the string.
+assert_ne!(
+    text,
+    expected,
+    "The original text should *not* be identical to the expected output before normalization."
+);
 ```
 
 ## How It Works
