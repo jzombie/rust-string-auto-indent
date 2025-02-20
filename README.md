@@ -21,7 +21,7 @@ When working with multi-line strings inside indented code blocks, unwanted leadi
 
 `string-auto-indent` provides an automated way to normalize multi-line strings without modifying the first line's indentation.
 
-## Installation
+## Install
 
 ```sh
 cargo add string-auto-indent
