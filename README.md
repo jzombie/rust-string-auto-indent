@@ -106,8 +106,8 @@ let text = r#"
                             b. Sub point b
                         2. Point 2
                             a. Sub point a
-                            b. Sub piont b
-                                1b. Sub piont 1b
+                            b. Sub point b
+                                1b. Sub point 1b
     "#;
 
 // Expected output after applying auto indentation
@@ -119,8 +119,8 @@ String Auto Indent
         b. Sub point b
     2. Point 2
         a. Sub point a
-        b. Sub piont b
-            1b. Sub piont 1b
+        b. Sub point b
+            1b. Sub point 1b
 "#;
 
 // Verify that `auto_indent` correctly normalizes indentation
