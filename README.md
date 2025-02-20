@@ -50,7 +50,7 @@ let excessively_indented_text = r#"
             "#;
 
 
-// Expected output after applying `auto-indent`
+// Expected output after applying `auto_indent`
 let normalized_indentation = r#"
 Best Practices for Text Indentation
 -----------------------------------
