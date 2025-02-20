@@ -21,7 +21,7 @@ When working with multi-line strings inside indented code blocks, unwanted leadi
 
 `string-auto-indent` provides an automated way to normalize multi-line strings without modifying the first line's indentation.
 
-## Installation
+## Install
 
 ```sh
 cargo add string-auto-indent
@@ -29,113 +29,50 @@ cargo add string-auto-indent
 
 ## Usage
 
-## Example 1: Basic Indentation
-
-This example removes unnecessary leading spaces while preserving the relative indentation of nested lines.
-
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
 
-let text = r#"
-    String Auto Indent
+let excessively_indented_text = r#"
+                    Best Practices for Text Indentation
+                    -----------------------------------
 
-    Level 1
-        Level 2
-            Level 3
-    "#;
+                        1. Importance of Proper Indentation
+                            a. Enhances readability by clearly defining structure.
+                            b. Prevents misinterpretation of hierarchical content.
+                            c. Improves maintainability in collaborative environments.
 
-// Expected output after applying auto indentation
-let expected = r#"
-String Auto Indent
+                        2. Common Indentation Guidelines
+                            a. Use consistent spacing (e.g., 2 or 4 spaces per level).
+                            b. Avoid mixing spaces and tabs to ensure uniform formatting.
+                            c. Align nested elements to maintain structural clarity.
+                                1b. Maintain relative indentation depth across all nested elements.
+                                2b. Ensure indentation reflects logical hierarchy.
+            "#;
 
-Level 1
-    Level 2
-        Level 3
+
+// Expected output after applying `auto_indent`
+let normalized_indentation = r#"
+Best Practices for Text Indentation
+-----------------------------------
+
+    1. Importance of Proper Indentation
+        a. Enhances readability by clearly defining structure.
+        b. Prevents misinterpretation of hierarchical content.
+        c. Improves maintainability in collaborative environments.
+
+    2. Common Indentation Guidelines
+        a. Use consistent spacing (e.g., 2 or 4 spaces per level).
+        b. Avoid mixing spaces and tabs to ensure uniform formatting.
+        c. Align nested elements to maintain structural clarity.
+            1b. Maintain relative indentation depth across all nested elements.
+            2b. Ensure indentation reflects logical hierarchy.
 "#;
 
 // Verify that `auto_indent` correctly normalizes indentation
 assert_eq!(
-    auto_indent(text),
-    expected,
+    auto_indent(excessively_indented_text),
+    normalized_indentation,
     "The auto_indent function should normalize leading whitespace."
-);
-
-// Ensure the original text is not identical to the expected output
-// This confirms that `auto_indent` actually modifies the string.
-assert_ne!(
-    text,
-    expected,
-    "The original text should *not* be identical to the expected output before normalization."
-);
-```
-
-### Example Output
-
-#### With `auto-indent`
-
-```text
-String Auto Indent
-
-Level 1
-    Level 2
-        Level 3
-```
-
-#### Without `auto-intent`
-
-```text
-    String Auto Indent
-
-    Level 1
-        Level 2
-            Level 3
-```
-
-## Example 2: Mixed Indentation
-
-This example demonstrates how `auto_indent` normalizes inconsistent indentation while preserving the relative structure of nested content.
-
-```rust
-use string_auto_indent::{auto_indent, LineEnding};
-
-let text = r#"
-                    String Auto Indent
-
-                        1. Point 1
-                            a. Sub point a
-                            b. Sub point b
-                        2. Point 2
-                            a. Sub point a
-                            b. Sub piont b
-                                1b. Sub piont 1b
-    "#;
-
-// Expected output after applying auto indentation
-let expected = r#"
-String Auto Indent
-
-    1. Point 1
-        a. Sub point a
-        b. Sub point b
-    2. Point 2
-        a. Sub point a
-        b. Sub piont b
-            1b. Sub piont 1b
-"#;
-
-// Verify that `auto_indent` correctly normalizes indentation
-assert_eq!(
-    auto_indent(text),
-    expected,
-    "The auto_indent function should normalize leading whitespace."
-);
-
-// Ensure the original text is not identical to the expected output
-// This confirms that `auto_indent` actually modifies the string.
-assert_ne!(
-    text,
-    expected,
-    "The original text should *not* be identical to the expected output before normalization."
 );
 ```
 
