@@ -32,7 +32,7 @@ cargo add string-auto-indent
 ```rust
 use string_auto_indent::{auto_indent, LineEnding};
 
-let text = r#"
+let excessively_indented_text = r#"
                     Best Practices for Text Indentation
                     -----------------------------------
 
@@ -51,7 +51,7 @@ let text = r#"
 
 
 // Expected output after applying auto indentation
-let expected = r#"
+let normalized_indentation = r#"
 Best Practices for Text Indentation
 -----------------------------------
 
@@ -70,17 +70,9 @@ Best Practices for Text Indentation
 
 // Verify that `auto_indent` correctly normalizes indentation
 assert_eq!(
-    auto_indent(text),
-    expected,
+    auto_indent(excessively_indented_text),
+    normalized_indentation,
     "The auto_indent function should normalize leading whitespace."
-);
-
-// Ensure the original text is not identical to the expected output
-// This confirms that `auto_indent` actually modifies the string.
-assert_ne!(
-    text,
-    expected,
-    "The original text should *not* be identical to the expected output before normalization."
 );
 ```
 
