@@ -1,6 +1,6 @@
 [package]
 name = "string-auto-indent"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Jeremy Harris <jeremy.harris@zenosmosis.com>"]
 edition = "2021"
 description = "Normalizes multi-line string indentation while preserving platform-specific line endings."
@@ -8,5 +8,7 @@ repository = "https://github.com/jzombie/rust-string-auto-indent"
 license = "MIT"
 
 [dependencies]
-doc-comment = "0.3.3"
 line-ending = "1.2.0"
+
+[dev-dependencies]
+doc-comment = "0.3.3"
